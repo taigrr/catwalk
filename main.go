@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"time"
 
-	"charm.land/catwalk/internal/providers"
+	"github.com/taigrr/catwalk/internal/providers"
 	"github.com/charmbracelet/x/etag"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"

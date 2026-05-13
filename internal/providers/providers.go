@@ -6,7 +6,7 @@ import (
 	"encoding/json"
 	"log"
 
-	"charm.land/catwalk/pkg/catwalk"
+	"github.com/taigrr/catwalk/pkg/catwalk"
 )
 
 //go:embed configs/aihubmix.json

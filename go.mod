@@ -1,4 +1,4 @@
-module charm.land/catwalk
+module github.com/taigrr/catwalk
 
 go 1.25.10
 

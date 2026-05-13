@@ -15,7 +15,7 @@ import (
 	"strings"
 	"time"
 
-	"charm.land/catwalk/pkg/catwalk"
+	"github.com/taigrr/catwalk/pkg/catwalk"
 )
 
 // SupportedProviders defines which providers we want to support.
