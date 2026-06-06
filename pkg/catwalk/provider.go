@@ -28,6 +28,7 @@ const (
 	InferenceProviderAzure            InferenceProvider = "azure"
 	InferenceProviderBedrock          InferenceProvider = "bedrock"
 	InferenceProviderBedrockEurope    InferenceProvider = "bedrock-europe"
+	InferenceProviderBedrockOpenAI    InferenceProvider = "bedrock-openai"
 	InferenceProviderVertexAI         InferenceProvider = "vertexai"
 	InferenceProviderXAI              InferenceProvider = "xai"
 	InferenceProviderZAI              InferenceProvider = "zai"
@@ -114,6 +115,7 @@ func KnownProviders() []InferenceProvider {
 		InferenceProviderAzure,
 		InferenceProviderBedrock,
 		InferenceProviderBedrockEurope,
+		InferenceProviderBedrockOpenAI,
 		InferenceProviderVertexAI,
 		InferenceProviderXAI,
 		InferenceProviderZAI,
