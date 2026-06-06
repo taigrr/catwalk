@@ -8,6 +8,20 @@
   "default_small_model_id": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
   "models": [
     {
+      "id": "openai.gpt-5.5",
+      "name": "AWS GPT-5.5 (us-east-2 only)",
+      "cost_per_1m_in": 5,
+      "cost_per_1m_out": 30,
+      "cost_per_1m_in_cached": 0.5,
+      "cost_per_1m_out_cached": 0,
+      "context_window": 1050000,
+      "default_max_tokens": 128000,
+      "can_reason": true,
+      "reasoning_levels": ["low", "medium", "high", "xhigh"],
+      "default_reasoning_effort": "medium",
+      "supports_attachments": true
+    },
+    {
       "id": "us.anthropic.claude-sonnet-4-6",
       "name": "AWS Claude Sonnet 4.6",
       "cost_per_1m_in": 3,
