@@ -1,6 +1,6 @@
 {
-  "name": "AWS Bedrock (OpenAI)",
-  "id": "bedrock-openai",
+  "name": "AWS Bedrock (Mantle)",
+  "id": "bedrock-mantle",
   "type": "openai",
   "api_key": "",
   "api_endpoint": "https://bedrock-mantle.us-east-2.api.aws/openai/v1",

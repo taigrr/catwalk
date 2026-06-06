@@ -27,8 +27,8 @@ var azureConfig []byte
 //go:embed configs/bedrock.json
 var bedrockConfig []byte
 
-//go:embed configs/bedrock-openai.json
-var bedrockOpenAIConfig []byte
+//go:embed configs/bedrock-mantle.json
+var bedrockMantleConfig []byte
 
 //go:embed configs/cerebras.json
 var cerebrasConfig []byte
@@ -132,7 +132,7 @@ var providerRegistry = []ProviderFunc{
 	avianProvider,
 	azureProvider,
 	bedrockProvider,
-	bedrockOpenAIProvider,
+	bedrockMantleProvider,
 	cerebrasProvider,
 	chutesProvider,
 	copilotProvider,
@@ -196,8 +196,8 @@ func bedrockProvider() catwalk.Provider {
 	return loadProviderFromConfig(bedrockConfig)
 }
 
-func bedrockOpenAIProvider() catwalk.Provider {
-	return loadProviderFromConfig(bedrockOpenAIConfig)
+func bedrockMantleProvider() catwalk.Provider {
+	return loadProviderFromConfig(bedrockMantleConfig)
 }
 
 func cerebrasProvider() catwalk.Provider {
