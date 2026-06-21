@@ -96,6 +96,11 @@ type Model struct {
 	DefaultReasoningEffort string       `json:"default_reasoning_effort,omitempty"`
 	SupportsImages         bool         `json:"supports_attachments"`
 	Options                ModelOptions `json:"options,omitzero"`
+	// Image holds per-model image-input constraints. When zero, callers
+	// should resolve the provider-family defaults via
+	// [Model.ResolveImageLimits]; non-zero fields override those
+	// defaults (e.g. newer Claude models that allow a larger long edge).
+	Image ImageLimits `json:"image,omitzero"`
 	// Supports1MContext indicates the model supports the 1M context window beta feature.
 	Supports1MContext bool `json:"supports_1m_context,omitempty"`
 	// Long context pricing (when >200K input tokens with 1M context enabled).
@@ -103,6 +108,124 @@ type Model struct {
 	LongContextCostPer1MIn       float64 `json:"long_context_cost_per_1m_in,omitempty"`
 	LongContextCostPer1MOut      float64 `json:"long_context_cost_per_1m_out,omitempty"`
 	LongContextCostPer1MInCached float64 `json:"long_context_cost_per_1m_in_cached,omitempty"`
+}
+
+// ImageLimits describes a model's documented image-input constraints.
+// All values are the provider's published maximums; consumers are
+// expected to apply their own safety margin before enforcing them.
+//
+// Two classes of limit are modeled:
+//
+//   - Per-image: every single image must independently satisfy
+//     MaxLongEdge (longest edge, pixels) and MaxBytesPerImage (encoded
+//     size).
+//   - Aggregate: summed across every image in a request (the full
+//     replayed thread plus the new message) the totals must satisfy
+//     MaxAggregatePixels (sum of width*height) and MaxAggregateBytes
+//     (total encoded bytes); MaxImages caps the count.
+//
+// A zero field means "unknown" and should be resolved against the
+// provider-family defaults from [DefaultImageLimits].
+type ImageLimits struct {
+	MaxLongEdge        int64 `json:"max_long_edge,omitempty"`
+	MaxBytesPerImage   int64 `json:"max_bytes_per_image,omitempty"`
+	MaxAggregatePixels int64 `json:"max_aggregate_pixels,omitempty"`
+	MaxAggregateBytes  int64 `json:"max_aggregate_bytes,omitempty"`
+	MaxImages          int64 `json:"max_images,omitempty"`
+}
+
+// IsZero reports whether no image limit has been set.
+func (l ImageLimits) IsZero() bool {
+	return l == ImageLimits{}
+}
+
+// merge returns l with any zero field filled from def.
+func (l ImageLimits) merge(def ImageLimits) ImageLimits {
+	if l.MaxLongEdge == 0 {
+		l.MaxLongEdge = def.MaxLongEdge
+	}
+	if l.MaxBytesPerImage == 0 {
+		l.MaxBytesPerImage = def.MaxBytesPerImage
+	}
+	if l.MaxAggregatePixels == 0 {
+		l.MaxAggregatePixels = def.MaxAggregatePixels
+	}
+	if l.MaxAggregateBytes == 0 {
+		l.MaxAggregateBytes = def.MaxAggregateBytes
+	}
+	if l.MaxImages == 0 {
+		l.MaxImages = def.MaxImages
+	}
+	return l
+}
+
+// conservativeImageLimits is the fallback for provider types without a
+// documented entry. It is intentionally strict so an unknown model is
+// never sent images that blow an undocumented ceiling.
+var conservativeImageLimits = ImageLimits{
+	MaxLongEdge:        1568,
+	MaxBytesPerImage:   4_000_000,
+	MaxAggregatePixels: 30_000_000,
+	MaxAggregateBytes:  20_000_000,
+	MaxImages:          50,
+}
+
+// defaultImageLimitsByType maps a provider API family to its documented
+// image limits. Providers that proxy a known family (Bedrock/Vertex
+// hosting Claude) use the stricter platform values (e.g. 5MB/image).
+var defaultImageLimitsByType = map[Type]ImageLimits{
+	TypeAnthropic: {
+		MaxLongEdge:        1568,
+		MaxBytesPerImage:   5_000_000,
+		MaxAggregatePixels: 40_000_000,
+		MaxAggregateBytes:  32_000_000,
+		MaxImages:          100,
+	},
+	TypeBedrock: {
+		MaxLongEdge:        1568,
+		MaxBytesPerImage:   5_000_000,
+		MaxAggregatePixels: 40_000_000,
+		MaxAggregateBytes:  32_000_000,
+		MaxImages:          100,
+	},
+	TypeVertexAI: {
+		MaxLongEdge:        1568,
+		MaxBytesPerImage:   5_000_000,
+		MaxAggregatePixels: 40_000_000,
+		MaxAggregateBytes:  32_000_000,
+		MaxImages:          100,
+	},
+	TypeOpenAI: {
+		MaxLongEdge:        2048,
+		MaxBytesPerImage:   20_000_000,
+		MaxAggregatePixels: 50_000_000,
+		MaxAggregateBytes:  50_000_000,
+		MaxImages:          100,
+	},
+	TypeGoogle: {
+		MaxLongEdge:        3072,
+		MaxBytesPerImage:   7_000_000,
+		MaxAggregatePixels: 60_000_000,
+		MaxAggregateBytes:  20_000_000,
+		MaxImages:          3000,
+	},
+}
+
+// DefaultImageLimits returns the documented image limits for a provider
+// API family, or a conservative fallback when the family is unknown.
+func DefaultImageLimits(t Type) ImageLimits {
+	if l, ok := defaultImageLimitsByType[t]; ok {
+		return l
+	}
+	return conservativeImageLimits
+}
+
+// ResolveImageLimits returns the model's effective image limits: any
+// per-model override fields set on Image take precedence, with the rest
+// filled from the provider-family defaults for t. This is the single
+// entry point consumers should use to obtain a model's image limits.
+func (m Model) ResolveImageLimits(t Type) ImageLimits {
+	return m.Image.merge(DefaultImageLimits(t))
 }
 
 // KnownProviders returns all the known inference providers.

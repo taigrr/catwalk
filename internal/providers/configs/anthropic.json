@@ -19,7 +19,8 @@
       "can_reason": true,
       "reasoning_levels": ["low", "medium", "high", "xhigh", "max"],
       "default_reasoning_effort": "high",
-      "supports_attachments": true
+      "supports_attachments": true,
+      "image": { "max_long_edge": 2576 }
     },
     {
       "id": "claude-mythos-5",
@@ -33,7 +34,8 @@
       "can_reason": true,
       "reasoning_levels": ["low", "medium", "high", "xhigh", "max"],
       "default_reasoning_effort": "high",
-      "supports_attachments": true
+      "supports_attachments": true,
+      "image": { "max_long_edge": 2576 }
     },
     {
       "id": "claude-sonnet-4-6",
@@ -73,7 +75,8 @@
       "can_reason": true,
       "reasoning_levels": ["low", "medium", "high", "xhigh", "max"],
       "default_reasoning_effort": "high",
-      "supports_attachments": true
+      "supports_attachments": true,
+      "image": { "max_long_edge": 2576 }
     },
     {
       "id": "claude-opus-4-7",
@@ -87,7 +90,8 @@
       "can_reason": true,
       "reasoning_levels": ["low", "medium", "high", "xhigh", "max"],
       "default_reasoning_effort": "high",
-      "supports_attachments": true
+      "supports_attachments": true,
+      "image": { "max_long_edge": 2576 }
     },
     {
       "id": "claude-opus-4-6",
