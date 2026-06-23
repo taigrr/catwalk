@@ -60,15 +60,20 @@ const (
 
 // Provider represents an AI provider configuration.
 type Provider struct {
-	Name                string            `json:"name"`
-	ID                  InferenceProvider `json:"id"`
-	APIKey              string            `json:"api_key,omitempty"`
-	APIEndpoint         string            `json:"api_endpoint,omitempty"`
-	Type                Type              `json:"type,omitempty"`
-	DefaultLargeModelID string            `json:"default_large_model_id,omitempty"`
-	DefaultSmallModelID string            `json:"default_small_model_id,omitempty"`
-	Models              []Model           `json:"models,omitempty"`
-	DefaultHeaders      map[string]string `json:"default_headers,omitempty"`
+	Name                    string            `json:"name"`
+	ID                      InferenceProvider `json:"id"`
+	APIKey                  string            `json:"api_key,omitempty"`
+	APIEndpoint             string            `json:"api_endpoint,omitempty"`
+	Type                    Type              `json:"type,omitempty"`
+	DefaultLargeModelID     string            `json:"default_large_model_id,omitempty"`
+	DefaultSmallModelID     string            `json:"default_small_model_id,omitempty"`
+	DefaultEmbeddingModelID string            `json:"default_embedding_model_id,omitempty"`
+	Models                  []Model           `json:"models,omitempty"`
+	// EmbeddingModels lists the provider's text-embedding models. It is
+	// kept separate from Models so consumers iterating chat models are
+	// unaffected by embedding entries.
+	EmbeddingModels []Model           `json:"embedding_models,omitempty"`
+	DefaultHeaders  map[string]string `json:"default_headers,omitempty"`
 }
 
 // ModelOptions stores extra options for models.
@@ -108,6 +113,16 @@ type Model struct {
 	LongContextCostPer1MIn       float64 `json:"long_context_cost_per_1m_in,omitempty"`
 	LongContextCostPer1MOut      float64 `json:"long_context_cost_per_1m_out,omitempty"`
 	LongContextCostPer1MInCached float64 `json:"long_context_cost_per_1m_in_cached,omitempty"`
+	// Dimensions is the size of the output vector for embedding models.
+	// For embedding models that support multiple output sizes this is the
+	// default/recommended dimensionality. It is zero for chat models.
+	Dimensions int64 `json:"dimensions,omitempty"`
+}
+
+// IsEmbedding reports whether the model is a text-embedding model,
+// identified by a non-zero output Dimensions.
+func (m Model) IsEmbedding() bool {
+	return m.Dimensions > 0
 }
 
 // ImageLimits describes a model's documented image-input constraints.

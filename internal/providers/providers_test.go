@@ -18,6 +18,15 @@ func TestValidDefaultModels(t *testing.T) {
 			if !slices.Contains(modelIds, p.DefaultSmallModelID) {
 				t.Errorf("Default small model %q not found in provider %q", p.DefaultSmallModelID, p.Name)
 			}
+			if p.DefaultEmbeddingModelID != "" {
+				var embeddingIDs []string
+				for _, m := range p.EmbeddingModels {
+					embeddingIDs = append(embeddingIDs, m.ID)
+				}
+				if !slices.Contains(embeddingIDs, p.DefaultEmbeddingModelID) {
+					t.Errorf("Default embedding model %q not found in provider %q", p.DefaultEmbeddingModelID, p.Name)
+				}
+			}
 		})
 	}
 }
