@@ -35,6 +35,7 @@ func TestAnthropicNewModelsImageLongEdgeOverride(t *testing.T) {
 	want := map[string]int64{
 		"claude-fable-5":    2576,
 		"claude-mythos-5":   2576,
+		"claude-opus-5":     2576,
 		"claude-opus-4-8":   2576,
 		"claude-opus-4-7":   2576,
 		"claude-sonnet-4-6": 1568, // no override -> provider default
