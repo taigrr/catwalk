@@ -1,0 +1,34 @@
+{
+  "name": "Grok (Subscription)",
+  "id": "grok",
+  "api_endpoint": "https://cli-chat-proxy.grok.com/v1",
+  "type": "openai-compat",
+  "default_large_model_id": "grok-4.6",
+  "default_small_model_id": "grok-4.5",
+  "models": [
+    {
+      "id": "grok-4.6",
+      "name": "Grok 4.6",
+      "cost_per_1m_in": 0,
+      "cost_per_1m_out": 0,
+      "cost_per_1m_in_cached": 0,
+      "cost_per_1m_out_cached": 0,
+      "context_window": 500000,
+      "default_max_tokens": 50000,
+      "can_reason": true,
+      "supports_attachments": true
+    },
+    {
+      "id": "grok-4.5",
+      "name": "Grok 4.5",
+      "cost_per_1m_in": 0,
+      "cost_per_1m_out": 0,
+      "cost_per_1m_in_cached": 0,
+      "cost_per_1m_out_cached": 0,
+      "context_window": 500000,
+      "default_max_tokens": 50000,
+      "can_reason": true,
+      "supports_attachments": true
+    }
+  ]
+}

@@ -102,6 +102,9 @@ var vertexAIConfig []byte
 //go:embed configs/xai.json
 var xAIConfig []byte
 
+//go:embed configs/grok.json
+var grokConfig []byte
+
 //go:embed configs/zai.json
 var zAIConfig []byte
 
@@ -120,6 +123,7 @@ var providerRegistry = []ProviderFunc{
 	openAIProvider,
 	geminiProvider,
 	xAIProvider,
+	grokProvider,
 	zAIProvider,
 	kimiCodingProvider,
 	miniMaxProvider,
@@ -294,6 +298,10 @@ func vertexAIProvider() catwalk.Provider {
 
 func xAIProvider() catwalk.Provider {
 	return loadProviderFromConfig(xAIConfig)
+}
+
+func grokProvider() catwalk.Provider {
+	return loadProviderFromConfig(grokConfig)
 }
 
 func zAIProvider() catwalk.Provider {

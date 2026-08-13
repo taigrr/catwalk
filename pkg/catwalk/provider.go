@@ -31,6 +31,7 @@ const (
 	InferenceProviderBedrockMantle    InferenceProvider = "bedrock-mantle"
 	InferenceProviderVertexAI         InferenceProvider = "vertexai"
 	InferenceProviderXAI              InferenceProvider = "xai"
+	InferenceProviderGrok             InferenceProvider = "grok"
 	InferenceProviderZAI              InferenceProvider = "zai"
 	InferenceProviderDeepSeek         InferenceProvider = "deepseek"
 	InferenceProviderZhipu            InferenceProvider = "zhipu"
