@@ -16,8 +16,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/taigrr/catwalk/pkg/catwalk"
 	xstrings "github.com/charmbracelet/x/exp/strings"
+	"github.com/taigrr/catwalk/pkg/catwalk"
 )
 
 // Model represents a model from the io.net API.

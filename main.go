@@ -8,11 +8,11 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/taigrr/catwalk/internal/providers"
 	"github.com/charmbracelet/x/etag"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/taigrr/catwalk/internal/providers"
 )
 
 var counter = promauto.NewCounter(prometheus.CounterOpts{

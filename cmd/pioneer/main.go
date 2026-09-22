@@ -84,10 +84,7 @@ func main() {
 			contextWindow = 8192
 		}
 
-		defaultMaxTokens := contextWindow / 4
-		if defaultMaxTokens > 128000 {
-			defaultMaxTokens = 128000
-		}
+		defaultMaxTokens := min(contextWindow/4, 128000)
 		if defaultMaxTokens < 4096 {
 			defaultMaxTokens = 4096
 		}
