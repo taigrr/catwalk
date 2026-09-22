@@ -14,6 +14,9 @@ const (
 	TypeAzure        Type = "azure"
 	TypeBedrock      Type = "bedrock"
 	TypeVertexAI     Type = "google-vertex"
+	TypeTypeSafe     Type = "typesafe"
+	// TypeKev runs Kev decision models in-process; no endpoint or API key.
+	TypeKev Type = "kev"
 )
 
 // InferenceProvider represents the inference provider identifier.
@@ -57,6 +60,8 @@ const (
 	InferenceProviderOpenCodeZen      InferenceProvider = "opencode-zen"
 	InferenceProviderOpenCodeGo       InferenceProvider = "opencode-go"
 	InferenceProviderAlibabaSingapore InferenceProvider = "alibaba-singapore"
+	InferenceProviderTypeSafe         InferenceProvider = "typesafe"
+	InferenceProviderKev              InferenceProvider = "kev"
 )
 
 // Provider represents an AI provider configuration.
@@ -69,12 +74,19 @@ type Provider struct {
 	DefaultLargeModelID     string            `json:"default_large_model_id,omitempty"`
 	DefaultSmallModelID     string            `json:"default_small_model_id,omitempty"`
 	DefaultEmbeddingModelID string            `json:"default_embedding_model_id,omitempty"`
-	Models                  []Model           `json:"models,omitempty"`
+	// DefaultEvaluationModelID names the preferred entry in EvaluationModels.
+	DefaultEvaluationModelID string  `json:"default_evaluation_model_id,omitempty"`
+	Models                   []Model `json:"models,omitempty"`
 	// EmbeddingModels lists the provider's text-embedding models. It is
 	// kept separate from Models so consumers iterating chat models are
 	// unaffected by embedding entries.
-	EmbeddingModels []Model           `json:"embedding_models,omitempty"`
-	DefaultHeaders  map[string]string `json:"default_headers,omitempty"`
+	EmbeddingModels []Model `json:"embedding_models,omitempty"`
+	// EvaluationModels lists the provider's decision/evaluation models (e.g.
+	// TypeSafe Jev), which answer typed questions with probabilities instead
+	// of generating text. Kept separate from Models for the same reason as
+	// EmbeddingModels.
+	EvaluationModels []Model           `json:"evaluation_models,omitempty"`
+	DefaultHeaders   map[string]string `json:"default_headers,omitempty"`
 }
 
 // ModelOptions stores extra options for models.
@@ -279,6 +291,8 @@ func KnownProviders() []InferenceProvider {
 		InferenceProviderNeuralwatt,
 		InferenceProviderOpenCodeZen,
 		InferenceProviderOpenCodeGo,
+		InferenceProviderTypeSafe,
+		InferenceProviderKev,
 	}
 }
 
@@ -294,5 +308,7 @@ func KnownProviderTypes() []Type {
 		TypeAzure,
 		TypeBedrock,
 		TypeVertexAI,
+		TypeTypeSafe,
+		TypeKev,
 	}
 }

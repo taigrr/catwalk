@@ -57,6 +57,9 @@ var huggingFaceConfig []byte
 //go:embed configs/ionet.json
 var ioNetConfig []byte
 
+//go:embed configs/kev.json
+var kevConfig []byte
+
 //go:embed configs/kimi.json
 var kimiCodingConfig []byte
 
@@ -89,6 +92,9 @@ var qiniuCloudConfig []byte
 
 //go:embed configs/synthetic.json
 var syntheticConfig []byte
+
+//go:embed configs/typesafe.json
+var typeSafeConfig []byte
 
 //go:embed configs/vercel.json
 var vercelConfig []byte
@@ -150,7 +156,9 @@ var providerRegistry = []ProviderFunc{
 	openCodeGoProvider,
 	openCodeZenProvider,
 	openRouterProvider,
+	kevProvider,
 	qiniuCloudProvider,
+	typeSafeProvider,
 	vercelProvider,
 	veniceProvider,
 	vertexAIProvider,
@@ -282,6 +290,14 @@ func qiniuCloudProvider() catwalk.Provider {
 
 func syntheticProvider() catwalk.Provider {
 	return loadProviderFromConfig(syntheticConfig)
+}
+
+func kevProvider() catwalk.Provider {
+	return loadProviderFromConfig(kevConfig)
+}
+
+func typeSafeProvider() catwalk.Provider {
+	return loadProviderFromConfig(typeSafeConfig)
 }
 
 func vercelProvider() catwalk.Provider {

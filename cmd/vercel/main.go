@@ -75,6 +75,26 @@ func fetchVercelModels() (*ModelsResponse, error) {
 	return &mr, nil
 }
 
+const (
+	modelTypeLanguage   = "language"
+	modelTypeEvaluation = "evaluation"
+
+	defaultEvaluationModelID = "typesafe-ai/jev"
+)
+
+func roundCost(v float64) float64 { return math.Round(v*1e5) / 1e5 }
+
+func parseCostPer1M(raw string) float64 {
+	if raw == "" {
+		return 0
+	}
+	cost, err := strconv.ParseFloat(raw, 64)
+	if err != nil {
+		return 0
+	}
+	return roundCost(cost * 1_000_000)
+}
+
 func main() {
 	modelsResp, err := fetchVercelModels()
 	if err != nil {
@@ -97,8 +117,20 @@ func main() {
 	}
 
 	for _, model := range modelsResp.Data {
+		if model.Type == modelTypeEvaluation {
+			vercelProvider.EvaluationModels = append(vercelProvider.EvaluationModels, catwalk.Model{
+				ID:            model.ID,
+				Name:          model.Name,
+				CostPer1MIn:   parseCostPer1M(model.Pricing.Input),
+				CostPer1MOut:  parseCostPer1M(model.Pricing.Output),
+				ContextWindow: model.ContextWindow,
+			})
+			fmt.Printf("Added evaluation model %s with context window %d\n", model.ID, model.ContextWindow)
+			continue
+		}
+
 		// Only include language models, skip embedding and image models
-		if model.Type != "language" {
+		if model.Type != modelTypeLanguage {
 			continue
 		}
 
@@ -108,7 +140,6 @@ func main() {
 		}
 
 		// Parse pricing
-		roundCost := func(v float64) float64 { return math.Round(v*1e5) / 1e5 }
 		costPer1MIn := 0.0
 		costPer1MOut := 0.0
 		costPer1MInCached := 0.0
@@ -191,6 +222,14 @@ func main() {
 	slices.SortFunc(vercelProvider.Models, func(a catwalk.Model, b catwalk.Model) int {
 		return strings.Compare(a.Name, b.Name)
 	})
+	slices.SortFunc(vercelProvider.EvaluationModels, func(a catwalk.Model, b catwalk.Model) int {
+		return strings.Compare(a.Name, b.Name)
+	})
+	for _, model := range vercelProvider.EvaluationModels {
+		if model.ID == defaultEvaluationModelID {
+			vercelProvider.DefaultEvaluationModelID = model.ID
+		}
+	}
 
 	// Save the JSON in internal/providers/configs/vercel.json
 	data, err := json.MarshalIndent(vercelProvider, "", "  ")

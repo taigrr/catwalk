@@ -1,0 +1,44 @@
+{
+  "name": "Kev (local)",
+  "id": "kev",
+  "type": "kev",
+  "default_evaluation_model_id": "kev-4b",
+  "evaluation_models": [
+    {
+      "id": "kev-0.8b",
+      "name": "Kev 0.8B",
+      "cost_per_1m_in": 0,
+      "cost_per_1m_out": 0,
+      "cost_per_1m_in_cached": 0,
+      "cost_per_1m_out_cached": 0,
+      "context_window": 8192,
+      "default_max_tokens": 0,
+      "can_reason": false,
+      "supports_attachments": false
+    },
+    {
+      "id": "kev-4b",
+      "name": "Kev 4B",
+      "cost_per_1m_in": 0,
+      "cost_per_1m_out": 0,
+      "cost_per_1m_in_cached": 0,
+      "cost_per_1m_out_cached": 0,
+      "context_window": 8192,
+      "default_max_tokens": 0,
+      "can_reason": false,
+      "supports_attachments": false
+    },
+    {
+      "id": "kev-9b",
+      "name": "Kev 9B",
+      "cost_per_1m_in": 0,
+      "cost_per_1m_out": 0,
+      "cost_per_1m_in_cached": 0,
+      "cost_per_1m_out_cached": 0,
+      "context_window": 8192,
+      "default_max_tokens": 0,
+      "can_reason": false,
+      "supports_attachments": false
+    }
+  ]
+}

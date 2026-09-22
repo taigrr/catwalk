@@ -32,6 +32,14 @@
 
 ## Updating providers manually
 
+### TypeSafe
+
+`typesafe.json` is evaluation-only (Jev decision models, no chat models). TypeSafe's `GET /v1/models` requires an API key, so update the model list and pricing by hand from `https://docs.typesafe.ai/models`. Evaluation models bill input tokens only; `cost_per_1m_out` must stay `0`. The Vercel AI Gateway entry for Jev (`typesafe-ai/jev`) is populated automatically by `cmd/vercel` from models with `"type": "evaluation"`.
+
+### Kev
+
+`kev.json` lists the in-process Kev checkpoints served by `fantasy/providers/kev` (weights downloaded at runtime; no endpoint, no key, zero cost). Keep ids in sync with the `Checkpoint*` constants in that package.
+
 ### Zai
 
 For `zai`, we'll need to grab the model list and capabilities from `https://docs.z.ai/guides/overview/overview`.

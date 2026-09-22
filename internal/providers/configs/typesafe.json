@@ -1,0 +1,46 @@
+{
+  "name": "TypeSafe",
+  "id": "typesafe",
+  "api_key": "$TYPESAFE_API_KEY",
+  "api_endpoint": "https://api.typesafe.ai",
+  "type": "typesafe",
+  "default_evaluation_model_id": "jev-latest",
+  "evaluation_models": [
+    {
+      "id": "jev-latest",
+      "name": "Jev (latest)",
+      "cost_per_1m_in": 0.042,
+      "cost_per_1m_out": 0,
+      "cost_per_1m_in_cached": 0,
+      "cost_per_1m_out_cached": 0,
+      "context_window": 64000,
+      "default_max_tokens": 0,
+      "can_reason": false,
+      "supports_attachments": false
+    },
+    {
+      "id": "jev-1.13.0",
+      "name": "Jev 1.13.0",
+      "cost_per_1m_in": 0.042,
+      "cost_per_1m_out": 0,
+      "cost_per_1m_in_cached": 0,
+      "cost_per_1m_out_cached": 0,
+      "context_window": 64000,
+      "default_max_tokens": 0,
+      "can_reason": false,
+      "supports_attachments": false
+    },
+    {
+      "id": "jev-preview",
+      "name": "Jev (preview)",
+      "cost_per_1m_in": 0.042,
+      "cost_per_1m_out": 0,
+      "cost_per_1m_in_cached": 0,
+      "cost_per_1m_out_cached": 0,
+      "context_window": 64000,
+      "default_max_tokens": 0,
+      "can_reason": false,
+      "supports_attachments": false
+    }
+  ]
+}
