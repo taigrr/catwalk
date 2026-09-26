@@ -9,6 +9,38 @@
   "default_embedding_model_id": "amazon.titan-embed-text-v2:0",
   "models": [
     {
+      "id": "us.anthropic.claude-opus-5-5",
+      "name": "AWS Claude Opus 5.5",
+      "cost_per_1m_in": 4,
+      "cost_per_1m_out": 20,
+      "cost_per_1m_in_cached": 5,
+      "cost_per_1m_out_cached": 0.20,
+      "context_window": 1000000,
+      "default_max_tokens": 126000,
+      "can_reason": true,
+      "reasoning_levels": ["low", "medium", "high", "xhigh", "max"],
+      "default_reasoning_effort": "medium",
+      "options": { "provider_options": { "thinking_display": "summarized" } },
+      "supports_attachments": true,
+      "image": { "max_long_edge": 2576 }
+    },
+    {
+      "id": "global.anthropic.claude-opus-5-5",
+      "name": "AWS Claude Opus 5.5 (Global)",
+      "cost_per_1m_in": 4,
+      "cost_per_1m_out": 20,
+      "cost_per_1m_in_cached": 5,
+      "cost_per_1m_out_cached": 0.20,
+      "context_window": 1000000,
+      "default_max_tokens": 126000,
+      "can_reason": true,
+      "reasoning_levels": ["low", "medium", "high", "xhigh", "max"],
+      "default_reasoning_effort": "medium",
+      "options": { "provider_options": { "thinking_display": "summarized" } },
+      "supports_attachments": true,
+      "image": { "max_long_edge": 2576 }
+    },
+    {
       "id": "us.anthropic.claude-fable-5-1",
       "name": "AWS Claude Fable 5.1",
       "cost_per_1m_in": 10,
