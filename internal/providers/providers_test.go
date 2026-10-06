@@ -2,6 +2,7 @@ package providers
 
 import (
 	"slices"
+	"strings"
 	"testing"
 
 	"github.com/taigrr/catwalk/pkg/catwalk"
@@ -50,17 +51,19 @@ func TestValidDefaultModels(t *testing.T) {
 }
 
 func TestEvaluationProviders(t *testing.T) {
-	var vercel, typesafe *catwalk.Provider
+	var vercel, typesafe, cloudflare *catwalk.Provider
 	for _, p := range GetAll() {
 		switch p.ID {
 		case catwalk.InferenceProviderVercel:
 			vercel = &p
 		case catwalk.InferenceProviderTypeSafe:
 			typesafe = &p
+		case catwalk.InferenceProviderCloudflare:
+			cloudflare = &p
 		}
 	}
-	if vercel == nil || typesafe == nil {
-		t.Fatal("expected both vercel and typesafe providers")
+	if vercel == nil || typesafe == nil || cloudflare == nil {
+		t.Fatal("expected vercel, typesafe and cloudflare providers")
 	}
 	if vercel.DefaultEvaluationModelID != "typesafe-ai/jev" {
 		t.Errorf("vercel default evaluation model = %q", vercel.DefaultEvaluationModelID)
@@ -73,6 +76,21 @@ func TestEvaluationProviders(t *testing.T) {
 	}
 	if !slices.Contains(catwalk.KnownProviderTypes(), catwalk.TypeTypeSafe) {
 		t.Error("typesafe missing from KnownProviderTypes")
+	}
+	if cloudflare.Type != catwalk.TypeCloudflare || len(cloudflare.Models) != 0 {
+		t.Errorf("cloudflare provider should be evaluation-only, got %+v", cloudflare)
+	}
+	if cloudflare.DefaultEvaluationModelID != "clef" {
+		t.Errorf("cloudflare default evaluation model = %q", cloudflare.DefaultEvaluationModelID)
+	}
+	if !strings.Contains(cloudflare.APIEndpoint, "$CLOUDFLARE_ACCOUNT_ID") {
+		t.Errorf("cloudflare endpoint should be account-templated, got %q", cloudflare.APIEndpoint)
+	}
+	if !slices.Contains(catwalk.KnownProviders(), catwalk.InferenceProviderCloudflare) {
+		t.Error("cloudflare missing from KnownProviders")
+	}
+	if !slices.Contains(catwalk.KnownProviderTypes(), catwalk.TypeCloudflare) {
+		t.Error("cloudflare missing from KnownProviderTypes")
 	}
 }
 

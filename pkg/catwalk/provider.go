@@ -17,6 +17,10 @@ const (
 	TypeTypeSafe     Type = "typesafe"
 	// TypeKev runs Kev decision models in-process; no endpoint or API key.
 	TypeKev Type = "kev"
+	// TypeCloudflare serves decision models (Clef) through Cloudflare Workers
+	// AI. APIEndpoint is the Workers AI run root (account-scoped or an AI
+	// Gateway); the model slug is appended to it.
+	TypeCloudflare Type = "cloudflare"
 )
 
 // InferenceProvider represents the inference provider identifier.
@@ -62,6 +66,7 @@ const (
 	InferenceProviderAlibabaSingapore InferenceProvider = "alibaba-singapore"
 	InferenceProviderTypeSafe         InferenceProvider = "typesafe"
 	InferenceProviderKev              InferenceProvider = "kev"
+	InferenceProviderCloudflare       InferenceProvider = "cloudflare"
 )
 
 // Provider represents an AI provider configuration.
@@ -293,6 +298,7 @@ func KnownProviders() []InferenceProvider {
 		InferenceProviderOpenCodeGo,
 		InferenceProviderTypeSafe,
 		InferenceProviderKev,
+		InferenceProviderCloudflare,
 	}
 }
 
@@ -310,5 +316,6 @@ func KnownProviderTypes() []Type {
 		TypeVertexAI,
 		TypeTypeSafe,
 		TypeKev,
+		TypeCloudflare,
 	}
 }

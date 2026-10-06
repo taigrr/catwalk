@@ -1,0 +1,34 @@
+{
+  "name": "Cloudflare Workers AI",
+  "id": "cloudflare",
+  "api_key": "$CLOUDFLARE_API_TOKEN",
+  "api_endpoint": "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/ai/run",
+  "type": "cloudflare",
+  "default_evaluation_model_id": "clef",
+  "evaluation_models": [
+    {
+      "id": "clef",
+      "name": "Clef",
+      "cost_per_1m_in": 0.24,
+      "cost_per_1m_out": 0,
+      "cost_per_1m_in_cached": 0,
+      "cost_per_1m_out_cached": 0,
+      "context_window": 65536,
+      "default_max_tokens": 0,
+      "can_reason": false,
+      "supports_attachments": true
+    },
+    {
+      "id": "clef-flash",
+      "name": "Clef Flash",
+      "cost_per_1m_in": 0.09,
+      "cost_per_1m_out": 0,
+      "cost_per_1m_in_cached": 0,
+      "cost_per_1m_out_cached": 0,
+      "context_window": 65536,
+      "default_max_tokens": 0,
+      "can_reason": false,
+      "supports_attachments": true
+    }
+  ]
+}
