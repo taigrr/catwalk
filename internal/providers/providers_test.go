@@ -97,6 +97,11 @@ func TestEvaluationProviders(t *testing.T) {
 func TestAnthropicNewModelsImageLongEdgeOverride(t *testing.T) {
 	want := map[string]int64{
 		"claude-fable-5":    2576,
+		"claude-fable-5-1":  2576,
+		"claude-mythos-5-1": 2576,
+		"claude-fable-5-2":  2576,
+		"claude-mythos-5-2": 2576,
+		"claude-opus-5-5":   2576,
 		"claude-mythos-5":   2576,
 		"claude-opus-5":     2576,
 		"claude-opus-4-8":   2576,
